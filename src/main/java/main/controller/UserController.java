@@ -27,11 +27,15 @@ public class UserController {
 
     @GetMapping("/")
     public String greeting() {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.contains(Role.ADMIN)) {
+//        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+//        if (authorities.contains(Role.ADMIN)) {
             return "redirect:/admin/adminPage";
-        }
-        return "redirect:/user/userPageInfo";
+//        }
+//        return "redirect:/user/userPageInfo";
+    }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
     @GetMapping("/newAdmin")

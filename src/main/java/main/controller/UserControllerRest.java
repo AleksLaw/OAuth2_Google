@@ -20,19 +20,26 @@ public class UserControllerRest {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/add")
-    public User createUser(@RequestParam("name") String name,
-                           @RequestParam(value = "password", required = false) String password,
-                           @RequestParam("lastName") String lastName,
-                           @RequestParam("age") String age,
-                           @RequestParam("email") String email,
-                           @RequestParam("role") String userRoles) {
-        int ageInt = Integer.parseInt(age);
+    public User createUser(User user, @RequestParam("role") String userRoles) {
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
-        User user = new User(name, passwordEncoder.encode(password), lastName, ageInt, email, roles);
-        serviceUser.save(user);
-        User byName = serviceUser.findByName(name);
-        return byName;
+        user.setUserRoles(roles);
+        user.setPassword( passwordEncoder.encode(user.getPassword()));
+        return serviceUser.save(user);
     }
+//    @PostMapping("/add")
+//    public User createUser(@RequestParam("name") String name,
+//                           @RequestParam(value = "password", required = false) String password,
+//                           @RequestParam("lastName") String lastName,
+//                           @RequestParam("age") String age,
+//                           @RequestParam("email") String email,
+//                           @RequestParam("role") String userRoles) {
+//        int ageInt = Integer.parseInt(age);
+//        HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
+//        User user = new User(name, passwordEncoder.encode(password), lastName, ageInt, email, roles);
+//        serviceUser.save(user);
+//        User byName = serviceUser.findByName(name);
+//        return byName;
+//    }
 
     @PostMapping("/edit")
     public User update(@RequestParam("name") String name,
